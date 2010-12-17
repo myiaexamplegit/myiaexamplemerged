@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">  
+  
+    <context:component-scan base-package="com.myia.example" />  
+  
+  <bean id="productDao" class="com.myia.example.repository.JpaProductDao"/>
+  
+  <bean id="productManager" class="com.myia.example.service.SimpleProductManager">
+        <property name="products">
+            <list>
+                <ref bean="product1"/>
+                <ref bean="product2"/>
+                <ref bean="product3"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="product1" class="com.myia.example.domain.Product">
+        <property name="description" value="Lamp"/>
+        <property name="price" value="5.75"/>
+    </bean>
+        
+    <bean id="product2" class="com.myia.example.domain.Product">
+        <property name="description" value="Table"/>
+        <property name="price" value="75.25"/>
+    </bean>
+
+    <bean id="product3" class="com.myia.example.domain.Product">
+        <property name="description" value="Chair"/>
+        <property name="price" value="22.79"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+    
+   
+   <bean name="/priceincrease.do" class="com.myia.example.MyiaPriceIncreaseFormController">
+        <property name="sessionForm" value="true"/>
+        <property name="commandName" value="priceIncrease"/>
+        <property name="commandClass" value="com.myia.example.service.PriceIncrease"/>
+        <property name="validator">
+            <bean class="com.myia.example.service.PriceIncreaseValidator"/>
+        </property>
+        <property name="formView" value="priceincrease"/>
+        <property name="successView" value="index.jsp"/>
+        <property name="productManager" ref="productManager"/>
+    </bean>
+    
+    <bean name="/printenvironment.do" class="com.myia.example.MyiaPrintEnvController">
+    	<property name="viewName" value="printenvironment"/>
+    </bean>
+    
+    <bean name="/urlfetch.do" class="com.myia.example.MyiaURLFetchController">
+    	<property name="viewName" value="urlfetch"/>
+    </bean>
+    
+    <bean id="viewResolver"  
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver"  
+        p:prefix="/WEB-INF/views/" p:suffix=".jsp" />  
+  
+</beans>  
