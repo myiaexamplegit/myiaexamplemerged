@@ -6,7 +6,7 @@
 </head>
 <body>
   <p>
-  Welcome to Google App Engine for Java & GIT!
+  Welcome to Google App Engine for Java & GIT, and another change!
   </p>
   <p>
   <ul>
